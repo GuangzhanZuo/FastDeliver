@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/fastdeliver?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+mybatis:
+  type-aliases-package: com.qingyang.fastdeliver.dao
+  mapper-locations: classpath:mapper/*.xml
