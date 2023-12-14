@@ -33,8 +33,6 @@ public class addressController {
         String addressId = IdGenerator.generateOrderNumber();
         address.setAddressId(addressId);
 
-        System.out.println(address.toString());
-
         JsonResult<Void> result = new JsonResult<>();
         try{
             addressService.addNewAdd(address);
@@ -66,7 +64,46 @@ public class addressController {
             result.setMessage("查询地址信息时出现未知错误");
         }
         return result;
-
     }
 
+    @PostMapping("deleteaddlist")
+    public JsonResult<Void> deleteAddList(List<String> addressList, HttpSession session){
+//        String accountId = (String) session.getAttribute("accountId");
+        String accountId = "1000000001";
+
+        JsonResult<Void> result = new JsonResult<>();
+        try {
+            Integer deletedRows = addressService.deleteAddress(addressList, accountId);
+            result.setState(200);
+            result.setMessage("成功删除" + deletedRows + "地址");
+        } catch (Exception e) {
+            result.setState(5002);
+            result.setMessage("删除过程中出现未知错误");
+        }
+        return result;
+    }
+
+    @PostMapping("updateaddress")
+    public JsonResult<Void> updateAddress(Address address, HttpSession session){
+        //通过session获取账号account_id
+//        String accountId = (String) session.getAttribute("accountId");
+//        address.setAccountId(accountId);
+        address.setAccountId("1000000001");
+
+        JsonResult<Void> result = new JsonResult<>();
+        try {
+            if (addressService.updateAddress(address)){
+                result.setState(200);
+                result.setMessage("地址修改成功");
+            }else{
+                result.setState(4003);
+                result.setMessage("地址修改失败");
+            }
+        } catch (Exception e) {
+            result.setState(5003);
+            result.setMessage("地址修改过程中出现未知错误");
+        }
+
+        return result;
+    }
 }

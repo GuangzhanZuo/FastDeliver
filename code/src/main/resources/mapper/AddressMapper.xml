@@ -20,6 +20,16 @@
     <select id="findAddressById" resultMap="addressResultMap">
         select * from address where account_id=#{accountId};
     </select>
+
+    <delete id="deleteAddress">
+        DELETE FROM address WHERE address_id=#{addressId}&amp;&amp;account_id=#{accountId};
+    </delete>
+
+    <update id="updateAddress">
+        UPDATE address
+            SET address=#{address},name=#{name},phone=#{phone}
+            WHERE address_id=#{addressId}&amp;&amp;account_id=#{accountId};
+    </update>
 </mapper>
 
 

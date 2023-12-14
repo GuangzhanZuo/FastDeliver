@@ -34,4 +34,22 @@ public class AddressServiceImpl implements IAddressService {
         }
         return addressList;
     }
+
+    @Override
+    public Integer deleteAddress(List<String> addressIdList, String accountId) {
+        Integer deletedRows = 0;
+        for (String addressId : addressIdList){
+            Integer affRows = addressMapper.deleteAddress(addressId, accountId);
+            deletedRows += affRows;
+        }
+
+        return deletedRows;
+    }
+
+    @Override
+    public Boolean updateAddress(Address address) {
+        Integer affRows = addressMapper.updateAddress(address);
+
+        return affRows == 1;
+    }
 }
