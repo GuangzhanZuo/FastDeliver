@@ -29,6 +29,11 @@ public interface AddressMapper {
      */
     Integer deleteAddress(String addressId, String accountId);
 
+    /**
+     * 修改地址
+     * @param address Address对象
+     * @return 影响行数
+     */
     Integer updateAddress(Address address);
 
 

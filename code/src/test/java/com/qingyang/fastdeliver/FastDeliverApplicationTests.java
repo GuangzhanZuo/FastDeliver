@@ -98,9 +98,10 @@ class FastDeliverApplicationTests {
         Address address = new Address();
         address.setAddressId("1000000004");
         address.setAccountId("1000000001");
-        address.setName("xiaoming");
+        address.setName("iaoming");
         address.setAddress("集友三");
         address.setPhone("15039017223");
+
 
 //        Integer affRows = addressMapper.updateAddress(address);
 //        System.out.println(affRows);

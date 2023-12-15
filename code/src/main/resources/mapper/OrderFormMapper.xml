@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingyang.fastdeliver.dao.OrderListMapper">
+    <resultMap id="orderResultMap" type="com.qingyang.fastdeliver.entity.OrderForm">
+        <result column="order_id" property="orderId"/>
+        <result column="account_id" property="accountId"/>
+        <result column="deliver_account_id" property="deliverAccountId"/>
+        <result column="admin_account_id" property="adminAccountId"/>
+        <result column="address_id" property="addressId" />
+        <result column="package_address" property="packageAddress"/>
+        <result column="package_code" property="packageCode"/>
+        <result column="pickup_code" property="pickupCode"/>
+        <result column="order_amount" property="orderAmount"/>
+        <result column="order_date" property="orderDate"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="get_package_time" property="getPackageTime"/>
+        <result column="picture_name" property="pictureName"/>
+        <result column="order_finish_time" property="orderFinishTime"/>
+        <result column="audit_time" property="auditTime"/>
+    </resultMap>
+    <!--  以下关于插入  -->
+    <insert id="insertOrderForm">
+        INSERT INTO orderlist
+        (
+             order_id, account_id, address_id,
+             package_address, package_code, pickup_code,
+             order_amount, order_date, order_status
+        )
+        VALUES
+        (
+         #{orderId}, #{accountId}, #{addressId},
+         #{packageAddress}, #{packageCode}, #{pickupCode},
+         #{orderAmount}, NOW(), #{orderStatus}
+        )
+    </insert>
+
+    <!--  以下与删除相关  -->
+    <delete id="deleteOrderForm">
+        DELETE FROM orderlist WHERE order_id=#{orderId}&amp;&amp;account_id=#{accountId};
+    </delete>
+
+    <!--  以下与查询相关  -->
+    <select id="findOrderById" resultMap="orderResultMap">
+        SELECT * FROM orderlist
+        WHERE account_id=#{id}
+            ||deliver_account_id=#{id}
+            ||admin_account_id=#{id}
+    </select>
+
+    <select id="findOrderByStatus" resultMap="orderResultMap">
+        SELECT orderlist.*,address.address,address.name,address.phone
+        FROM orderlist,address
+        WHERE orderlist.address_id=address.address_id
+        AND order_status=#{orderStatus};
+    </select>
+
+    <select id="findOrderUnfinished" resultMap="orderResultMap">
+        SELECT orderlist.*,address.address,address.name,address.phone
+        FROM orderlist,address
+        WHERE orderlist.address_id=address.address_id
+          AND order_status!=5;
+    </select>
+
+
+    <!--  以下与更新有关  -->
+    <update id="userUpdate">
+        UPDATE orderlist
+            SET address_id=#{addressId},package_address=#{packageAddress},
+                package_code=#{packageCode},pickup_code=#{pickupCode}
+            WHERE order_id=#{orderId}&amp;&amp;account_id=#{accountId};
+    </update>
+
+    <update id="deliverUpdateAccept">
+        UPDATE orderlist
+            SET deliver_account_id=#{deliverAccountId},order_status=2,
+                order_accept_time=Now()
+        WHERE order_id=#{orderId};
+    </update>
+
+    <update id="deliverUpdateTake">
+        UPDATE orderlist
+        SET order_status=3,get_package_time=Now(),picture_name=#{pictureName}
+        WHERE order_id=#{orderId};
+    </update>
+
+    <update id="deliverUpdateFinish">
+        UPDATE orderlist
+        SET order_status=4,order_finish_time=Now()
+        WHERE order_id=#{orderId};
+    </update>
+
+    <update id="adminUpdateAudit">
+        UPDATE orderlist
+        SET admin_account_id=#{adminAccountId},order_status=5,audit_time=Now()
+        WHERE order_id=#{orderId};
+    </update>
+
+</mapper>
