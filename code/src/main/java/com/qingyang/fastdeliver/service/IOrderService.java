@@ -97,6 +97,6 @@ public interface IOrderService {
      * @param accountId 管理员账号
      * @return
      */
-    Boolean auditUpdate(String accountId);
+    Boolean auditUpdate(String orderId, String accountId);
 
 }

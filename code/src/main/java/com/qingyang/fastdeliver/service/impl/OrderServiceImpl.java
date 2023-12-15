@@ -117,8 +117,8 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Boolean auditUpdate(String accountId) {
-        Integer affRows = orderListMapper.adminUpdateAudit(accountId);
+    public Boolean auditUpdate(String orderId, String accountId) {
+        Integer affRows = orderListMapper.adminUpdateAudit(orderId, accountId);
         return affRows == 1;
     }
 }

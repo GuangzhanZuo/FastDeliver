@@ -76,14 +76,14 @@ public class AdminOrderController {
     }
 
     @PostMapping("auditupdate")
-    public JsonResult<Void> auditUpdate(OrderForm order){
+    public JsonResult<Void> auditUpdate(String orderId){
         //通过session获取账号account_id
         String accountId = "1000000001";
 //        String accountId = (String) session.getAttribute("accountId");
 
         JsonResult<Void> result = new JsonResult<>();
         try {
-            if (orderService.auditUpdate(accountId)){
+            if (orderService.auditUpdate(orderId, accountId)){
                 result.setState(200);
                 result.setMessage("订单修改成功");
             }else{

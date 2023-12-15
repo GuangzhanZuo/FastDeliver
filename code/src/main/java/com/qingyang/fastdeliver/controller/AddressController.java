@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("address")
-public class addressController {
+public class AddressController {
 
     @Autowired
     private IAddressService addressService;
@@ -75,7 +75,7 @@ public class addressController {
         try {
             Integer deletedRows = addressService.deleteAddress(addressList, accountId);
             result.setState(200);
-            result.setMessage("成功删除" + deletedRows + "地址");
+            result.setMessage("成功删除" + deletedRows + "条地址");
         } catch (Exception e) {
             result.setState(5002);
             result.setMessage("删除过程中出现未知错误");

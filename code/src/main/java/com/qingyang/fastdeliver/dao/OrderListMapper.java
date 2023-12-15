@@ -98,7 +98,7 @@ public interface OrderListMapper {
      * @param accountId 管理员账号
      * @return 影响行数
      */
-    Integer adminUpdateAudit(String accountId);
+    Integer adminUpdateAudit(String orderId, String accountId);
 
 
 
