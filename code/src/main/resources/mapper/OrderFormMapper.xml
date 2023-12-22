@@ -32,7 +32,7 @@
         (
          #{orderId}, #{accountId}, #{addressId},
          #{packageAddress}, #{packageCode}, #{pickupCode},
-         #{orderAmount}, NOW(), #{orderStatus}
+         #{orderAmount}, NOW(), 1
         )
     </insert>
 

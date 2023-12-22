@@ -39,6 +39,8 @@ public class NormalOrderController {
             result.setState(200);
             result.setMessage("订单提交成功");
         } catch (Exception e) {
+            System.out.println(e.getClass().getSimpleName());
+            System.out.println(e.getMessage());
             result.setState(4000);
             result.setMessage("注册时产生未知异常");
         }
@@ -65,7 +67,7 @@ public class NormalOrderController {
         return result;
     }
 
-    @GetMapping("usergetorderlist")
+    @PostMapping("usergetorderlist")
     public JsonResult<List<OrderForm>> userGetOrderList(HttpSession session) {
         //通过session获取账号account_id
         String accountId = "1000000001";

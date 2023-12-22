@@ -41,7 +41,7 @@ public class DeliverOrderController {
     }
 
     @PostMapping("getacceptorderlist")
-    public JsonResult<List<OrderForm>> userGetOrderList() {
+    public JsonResult<List<OrderForm>> getAcceptOrderList() {
 
         JsonResult<List<OrderForm>> result = new JsonResult<>();
         try{
@@ -49,6 +49,7 @@ public class DeliverOrderController {
             result.setState(200);
             result.setData(orderList);
         } catch (OrderListIsNullException e){
+            System.out.println(e.getClass().getSimpleName());
             result.setState(4001);
             result.setMessage("未查询到该用户的订单信息");
         } catch (Exception e){

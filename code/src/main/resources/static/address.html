@@ -1,40 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
 <head>
     <meta charset="UTF-8">
-    <title>order</title>
+    <title>New Address</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
 </head>
+
 <body>
 
+<div class="container mt-5">
+
+    <h1>New Address</h1>
+
     <form id="form-newaddress">
-        地址：
-        <input type="text" name="address">
-        姓名：
-        <input type="text" name="name">
-        电话：
-        <input type="text" name="phone">
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" name="address">
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone">
+        </div>
+
     </form>
-    <input type="submit" value="注册" id="btn-newaddress">
-</body>
-</html>
+
+    <button type="button" class="btn btn-primary" id="btn-newaddress">Submit</button>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
     $("#btn-newaddress").click(function (){
+
+        var data = {
+            address: $("#address").val(),
+            name: $("#name").val(),
+            phone: $("#phone").val()
+        };
+
         $.ajax({
             url: "/address/newaddress",
             type: "POST",
-            data: $("#form-newaddress").serialize(),
+            data: data,
             dataType: "JSON",
             success: function (json){
                 if (json.state == 200){
-                    alert("注册成功");
+                    alert("添加成功");
                 }else{
-                    alert("注册失败");
+                    alert("添加失败");
                 }
             },
             error: function (xhr) {
-                alert("注册时产生未知的错误！" + xhr.status);
+                alert("添加时产生未知的错误!" + xhr.status);
             }
-        })
-    })
+        });
+
+    });
 </script>
+</body>
+
+</html>

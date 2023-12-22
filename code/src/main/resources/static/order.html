@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新的订单</title>
+    <!-- Bootstrap CSS -->
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="userorder.html">
+            <img src="/logo.png" width="30" height="30">
+            返回
+        </a>
+        <button id="submitBtn" class="btn btn-primary" >
+            提交订单
+        </button>
+
+    </div>
+</nav>
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label>送货信息</label>
+            </label><select class="form-control" id="addressSelect"></select>
+        </div>
+
+        <div class="form-group">
+            <label>驿站</label>
+            <input class="form-control" name="package_address">
+        </div>
+
+        <div class="form-group">
+            <label>订单号</label>
+            <input type="text" class="form-control" name="package_code">
+        </div>
+
+        <div class="form-group">
+            <label>取件码</label>
+            <input type="text" class="form-control" name="pickup_code">
+        </div>
+
+        <div class="form-group">
+            <label>金额</label>
+            <input type="text" class="form-control" name="order_amount" value="3" readonly>
+        </div>
+
+
+    </form>
+
+</div>
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    // 获取地址列表
+    function loadAddresses() {
+        $.ajax({
+            url: "/address/getaddress",
+            method: "GET",
+            dataType: "json",
+            success: function(result) {
+                var address = result.data;
+                var options = address.map(addr => {
+                    return `<option value="${addr.address_id}">
+          ${addr.name}  ${addr.address}  ${addr.phone}
+        </option>`
+                });
+                $("#addressSelect").html(options);
+            }
+
+        });
+
+    }
+
+    $(function() {
+        loadAddresses();
+    });
+
+    $("#submitBtn").click(function (){
+
+        var orderData = {
+            packageAddress: $("[name='package_address']").val(),
+            packageCode: $("[name='package_code']").val(),
+            pickupCode: $("[name='pickup_code']").val(),
+            orderAmount: $("[name='order_amount']").val()
+        };
+
+        $.ajax({
+            url: "/normal/neworder",
+            method: "POST",
+            data: orderData,
+            success: function(res) {
+                if(confirm("订单提交成功")) {
+                    window.location.href = "userorder.html";
+                }
+            },
+            error: function (res) {
+                alert("发生错误")
+            }
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
